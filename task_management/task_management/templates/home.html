@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+<!-- loading crispy forms -->
+{% load crispy_forms_tags %}
+<!-- page content here -->
+{% block content %}
+<h3 class="m-3 fw-bolder text-center">Task lists </h3>
+<section class="d-flex justify-content-center ">
+    {% for item in data %}
+    <div class="card w-25 m-3">
+        <div class="card-body">
+            <h5 class="card-title">{{item.task_title}}</h5>
+            <p class="card-text">{{item.description}}</p>
+            <h6 class="card-text">Time: {{item.assigned_date}}</h6>
+            <h5>Category : {% for opt in item.category.all %}
+                <button class="btn btn-primary btn-sm m-2" disabled>{{opt.name}} </button>
+                {% endfor %}
+            </h5>
+            <p>{% if item.is_completed is True %}
+                <a class="btn btn-success">Completed</a>
+                {% else %}
+                <a href="{% url 'edit_task' item.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'delete_task' item.id %}" class="btn btn-danger">Delete</a>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}
